@@ -1,0 +1,24 @@
+RewriteEngine On
+
+<Limit GET POST PUT DELETE>
+  Allow from all
+</Limit>
+
+#Geeft een game terug met de corresponderende id in JSON of XML formaat
+RewriteRule ^games.([a-z]*)/id/([0-9]*) index.php?format=$1&id=$2
+
+#Geeft een lijst van alle games terug die multiplayer hebben
+RewriteCond %{QUERY_STRING} ^multiplayer=([0-9^a-zA-Z]*)$
+RewriteRule ^games.([a-z]*)?$ index.php?format=$1&multiplayer=%1
+
+#Geeft een lijst met spellen van een bepaalde uitgever terug in JSON of XML formaat
+RewriteCond %{QUERY_STRING} ^publisher=([a-zA-Z]*)$
+RewriteRule ^games.([a-z]*)?$ index.php?format=$1&publisher=%1
+
+#Geeft een lijst van alle games terug
+RewriteRule ^games/names.([a-z]*) index.php?format=$1&games=true
+
+#Geeft een lijst van alle games terug met alle informatie erbij
+RewriteRule ^games.([a-z]*) index.php?format=$1&list=true
+
+
